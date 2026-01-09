@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suzlon Spatial | Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- SPATIAL LIGHT SYSTEM (Aerogel Theme) --- */
+        :root {
+            --bg-world: #F2F5F3;
+            --bg-glass: rgba(255, 255, 255, 0.65);
+            --bg-glass-hover: rgba(255, 255, 255, 0.95);
+            --border-glass: rgba(0, 0, 0, 0.1); 
+            --border-active: #2D978D;
+            --neon-primary: #2D978D;
+            --neon-glow: rgba(132, 189, 0, 0.25);
+            --text-main: #1a1a1a;
+            --text-dim: #444444;
+            --shadow-soft: 0 10px 40px -10px rgba(0, 40, 20, 0.08);
+            --shadow-float: 0 20px 50px -10px rgba(132, 189, 0, 0.15);
+            --font-main: 'Outfit', sans-serif;
+            --font-tech: 'Space Grotesk', sans-serif;
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f8fcf8; 
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            perspective: 2000px;
+        }
+
+        /* --- BACKGROUND --- */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            /* Your local image path */
+            background-image: url("aerial-view-of-wind-turbines-and-agriculture-field-2026-01-09-00-22-58-utc.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .ambient-light::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: transparent;
+        }
+
+        /* --- STAGE --- */
+        .stage {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 50px 30px 0 30px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .top-section {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .header-group { 
+            width: 100%; 
+            animation: fadeInUp 0.8s var(--ease-elastic); 
+        }
+
+        /* Title Wrapper: Aligns items to outer edges */
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            width: 100%; 
+        }
+
+        /* Logo Styling (Left) */
+        .main-logo-img {
+            height: 50px; 
+            width: auto;
+            filter: brightness(0) invert(1);
+            display: block;
+            transition: transform 0.3s var(--ease-elastic);
+        }
+        .main-logo-img:hover { transform: scale(1.05); }
+
+        /* Text Styling (Right) */
+        .subtitle {
+            font-family: var(--font-tech);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: right; 
+        }
+
+        /* Control Deck */
+        .control-deck {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--border-glass);
+            padding: 10px;
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-soft);
+            animation: fadeInUp 1s var(--ease-elastic);
+        }
+
+        /* Collapsible Search */
+        .search-wrapper { 
+            position: relative; 
+            width: 46px; 
+            height: 46px;
+            transition: width 0.5s var(--ease-elastic);
+            background: white;
+            border-radius: 50px;
+            border: 1px solid var(--border-glass);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .search-wrapper.expanded {
+            width: 300px;
+            border-color: var(--neon-primary);
+            box-shadow: 0 0 0 3px var(--neon-glow);
+        }
+
+        .search-icon { 
+            position: absolute; 
+            left: 13px; 
+            width: 20px; 
+            height: 20px; 
+            stroke: var(--text-dim);
+            z-index: 2;
+            transition: stroke 0.3s;
+        }
+        
+        .search-wrapper.expanded .search-icon { stroke: var(--neon-primary); }
+
+        .search-input {
+            width: 100%; 
+            height: 100%;
+            background: transparent; 
+            border: none;
+            padding: 0 20px 0 45px; 
+            color: var(--text-main);
+            font-family: var(--font-tech); 
+            font-size: 0.9rem; 
+            outline: none; 
+            opacity: 0; 
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-wrapper.expanded .search-input {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .filter-pills { 
+            flex: 1; display: flex; gap: 8px; overflow-x: auto; padding: 2px; 
+            scrollbar-width: none;
+        }
+        .filter-pills::-webkit-scrollbar { display: none; }
+        
+        .pill {
+            background: transparent; border: 1px solid transparent; color: var(--text-dim);
+            padding: 8px 16px; border-radius: 100px; cursor: pointer; white-space: nowrap;
+            font-family: var(--font-main); font-size: 0.85rem; font-weight: 500; transition: all 0.3s;
+        }
+        .pill:hover { background: white; color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .pill.active { background: var(--neon-primary); color: white; font-weight: 600; box-shadow: 0 4px 12px var(--neon-glow); }
+
+        /* --- SCROLLABLE GRID --- */
+        .scroll-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 40px;
+            margin: 0 -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.1) transparent;
+        }
+        
+        .scroll-container::-webkit-scrollbar { width: 6px; }
+        .scroll-container::-webkit-scrollbar-track { background: transparent; }
+        .scroll-container::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.1); border-radius: 20px; }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* --- CARDS --- */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s var(--ease-elastic);
+            display: flex; flex-direction: column;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--border-active);
+            box-shadow: var(--shadow-float);
+            z-index: 10;
+        }
+
+        .glass-card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+            border-left: 4px solid var(--neon-primary); 
+        }
+
+        .card-badge {
+            position: absolute; top: 20px; right: 20px;
+            background: white; color: var(--neon-primary);
+            padding: 4px 10px; border-radius: 100px;
+            font-size: 0.7rem; font-family: var(--font-tech); text-transform: uppercase; font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card-content { flex-grow: 1; }
+        .city-name {
+            font-size: 1.5rem; font-weight: 600; margin-bottom: 2px;
+            color: var(--text-main); letter-spacing: -0.5px;
+        }
+        
+        /* Renamed to State Name Style */
+        .state-name {
+            font-family: var(--font-tech); color: var(--text-dim); font-size: 0.75rem;
+            text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; font-weight: 600;
+        }
+        
+        .address-text {
+            color: var(--text-dim); line-height: 1.5; margin-bottom: 20px; font-size: 0.9rem;
+        }
+
+        .btn-map {
+            align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
+            color: var(--text-main); text-decoration: none; padding: 8px 16px;
+            border-radius: 8px; background: white; transition: all 0.3s;
+            font-weight: 600; font-size: 0.85rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);
+        }
+        .btn-map:hover {
+            background: var(--text-main); color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--text-main);
+        }
+
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-dim); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .glass-card.featured { grid-column: span 1; }
+            .control-deck { flex-direction: column; align-items: stretch; }
+            .search-wrapper { width: 100%; height: 50px; }
+            .search-input { opacity: 1; pointer-events: all; }
+            .stage { padding: 90px 20px 0 20px; }
+            .subtitle { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light"></div>
+
+    <div class="stage">
+        <div class="top-section">
+            <div class="header-group">
+                <div class="title-wrapper">
+                    <img src="https://www.suzlon.com//images/suzlon-logo.png" alt="Suzlon Energy Ltd." class="main-logo-img">
+                    
+                    <div class="subtitle">Suzlon Spatial Network</div>
+                </div>
+            </div>
+
+            <div class="control-deck">
+                <div class="search-wrapper" id="searchWrapper" onclick="toggleSearch()">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="searchInput" class="search-input" onkeyup="globalFilter()" onblur="collapseSearchIfEmpty()" placeholder="Search..." autocomplete="off">
+                </div>
+                
+                <div class="filter-pills" id="tabsContainer">
+                    <button class="pill active" onclick="filterByTab('all', this)">All</button>
+                    <button class="pill" onclick="filterByTab('maharashtra', this)">Maharashtra</button>
+                    <button class="pill" onclick="filterByTab('gujarat', this)">Gujarat</button>
+                    <button class="pill" onclick="filterByTab('andhra-pradesh', this)">Andhra Pradesh</button>
+                    <button class="pill" onclick="filterByTab('telangana', this)">Telangana</button>
+                    <button class="pill" onclick="filterByTab('tamil-nadu', this)">Tamil Nadu</button>
+                    <button class="pill" onclick="filterByTab('karnataka', this)">Karnataka</button>
+                    <button class="pill" onclick="filterByTab('madhya-pradesh', this)">Madhya Pradesh</button>
+                    <button class="pill" onclick="filterByTab('rajasthan', this)">Rajasthan</button>
+                    <button class="pill" onclick="filterByTab('delhi', this)">Delhi</button>
+                    <button class="pill" onclick="filterByTab('haryana', this)">Haryana</button>
+                    <button class="pill" onclick="filterByTab('west-bengal', this)">West Bengal</button>
+                    <button class="pill" onclick="filterByTab('puducherry', this)">Puducherry</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-container">
+            <div class="bento-grid" id="gridContainer">
+                
+                <div class="glass-card featured" data-category="maharashtra">
+                    <span class="card-badge">Global HQ</span>
+                    <div class="card-content">
+                        <div class="city-name">Pune</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">"One Earth", Hadapsar, Pune - 411028, Maharashtra, India.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+One+Earth+Pune" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="maharashtra">
+                    <span class="card-badge">Corporate Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Mumbai</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">1207, 12th Floor, Raheja Centre, Free Press Journal Marg, Nariman Point, Mumbai - 400021.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Raheja+Centre+Nariman+Point+Mumbai" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="maharashtra">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Ahmednagar</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">Green Office: Gut No 162B, Behind WTC BA-01, Kedya Donagar Village, Shanjapur - 414301.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Ahmednagar+Green+Office" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="maharashtra">
+                    <span class="card-badge">Rotor Blade Unit</span>
+                    <div class="card-content">
+                        <div class="city-name">Dhule</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">Survey No. 282, Opp. Government Rest House, At: Chhadvel - 424305, Taluka: Sakri.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Dhule+Chhadvel" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="maharashtra">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Sangli</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">'Shivtej', Vivekanandnagar, Vita Dist - Sangli - 415311.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Sangli+Vivekanandnagar" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="maharashtra">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Satara</div>
+                        <div class="state-name">Maharashtra</div>
+                        <p class="address-text">Gat No: 14/2, Village: Sadawaghapur, Taluka: Patan, Dist: Satara - 415206.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Sadawaghapur+Satara" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Regional Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Ahmedabad</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">"Suzlon House", 5 Shrimali Society, Navrangpura, Ahmedabad - 380009.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+House+Ahmedabad" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Rotor Blade Unit</span>
+                    <div class="card-content">
+                        <div class="city-name">Bhuj</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">Survey No. 588, Village Paddhar, Taluka Bhuj, District Kutch, Gujarat - 370105.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Village+Paddhar+Bhuj" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Bhuj</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">1st Floor, Katira Complex-2, Sanskar Nagar, Bhuj Kutch - 370001.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Katira+Complex+Bhuj" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Project Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Jamnagar</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">Manas Renewables Ltd, Vasudev Hotel & Restaurant, Jamnagar-Khambhaliya Highway, Opp. Essar Petrol Pump.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Jamnagar+Khambhaliya+Highway" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Porbandar</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">3rd Floor, Shiddhivinayak Complex, Narsang Tekri, Porbandar - 380575.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shiddhivinayak+Complex+Porbandar" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Rotor Blade Unit</span>
+                    <div class="card-content">
+                        <div class="city-name">Vadodara</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">Block No. 93, Opp. Gayatri Petrol Pump, Village: Vadsala - Varnama Dist, Vadodara - 391243.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Varnama+Vadodara" target="_blank" class="btn-map">View on Map</a>
+                </div>
+                
+                <div class="glass-card" data-category="gujarat">
+                    <span class="card-badge">Unit</span>
+                    <div class="card-content">
+                        <div class="city-name">Daman</div>
+                        <div class="state-name">Gujarat</div>
+                        <p class="address-text">Survey No.: 42/2-3, 54/1-to-8, Near Check Post, Dunetha Nani Daman - 396210.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Dunetha+Nani+Daman" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="andhra-pradesh">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Anantapur</div>
+                        <div class="state-name">Andhra Pradesh</div>
+                        <p class="address-text">Ragavendra Tower, 1st Floor, Door No.: 8/1184, Kalyandurg Road, Dist. Anantapur - 515761.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Ragavendra+Tower+Anantapur" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="andhra-pradesh">
+                    <span class="card-badge">IPPERU Site</span>
+                    <div class="card-content">
+                        <div class="city-name">Anantapur</div>
+                        <div class="state-name">Andhra Pradesh</div>
+                        <p class="address-text">Survey No.: 125, 150, 152, 153, and 154, Village: IPPERU, Kuderu Mandal, Dist. Anantapur.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=IPPERU+Anantapur" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="telangana">
+                    <span class="card-badge">Regional Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Hyderabad</div>
+                        <div class="state-name">Telangana</div>
+                        <p class="address-text">Unit 21, 19th Floor, The Head Quarters Orbit, Plot No 30/C, Knowledge City, Raidurg, Hyderabad - 500081.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=The+Head+Quarters+Orbit+Hyderabad" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="karnataka">
+                    <span class="card-badge">Regional Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Bengaluru</div>
+                        <div class="state-name">Karnataka</div>
+                        <p class="address-text">Unit No. 806, 8th Floor, Field Marshal K. M. Cariappa Road (Residency Road), Bengaluru - 560025.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Prestige+Towers+Residency+Road+Bangalore" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="karnataka">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Davangere</div>
+                        <div class="state-name">Karnataka</div>
+                        <p class="address-text">4073/204, CSM Complex, 1st Floor, Vinayaka Nagar, Kunduvada Link Road, Davangere - 577001.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=CSM+Complex+Davangere" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="karnataka">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Hassan</div>
+                        <div class="state-name">Karnataka</div>
+                        <p class="address-text">Survey No.: 21, 3/2, 3/3, 3/5, Village Nittur, Salagame Hobli, Taluka and Dist. Hassan - 573201.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Hassan+Nittur" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="karnataka">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Kushtagi</div>
+                        <div class="state-name">Karnataka</div>
+                        <p class="address-text">Plot No. 120/642B, Akkamahadevi Building, Ward No.: 04, Vishnuthirtha Nagar, Kushtagi - 583277.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kushtagi+Vishnuthirtha+Nagar" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="tamil-nadu">
+                    <span class="card-badge">Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Coimbatore</div>
+                        <div class="state-name">Tamil Nadu</div>
+                        <p class="address-text">4H, 4th Floor, SLV Aranya Square, Bharathiyar Road, New Siddhapudur, Coimbatore - 641044.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=SLV+Aranya+Square+Coimbatore" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="tamil-nadu">
+                    <span class="card-badge">Manufacturing Unit</span>
+                    <div class="card-content">
+                        <div class="city-name">Coimbatore</div>
+                        <div class="state-name">Tamil Nadu</div>
+                        <p class="address-text">SF No. 271/2, Bogampatty Village, Karadivavi (Via), Sulur Taluk, Coimbatore - 641658.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Bogampatty+Village" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="tamil-nadu">
+                    <span class="card-badge">Renewable Development</span>
+                    <div class="card-content">
+                        <div class="city-name">Tirunelveli</div>
+                        <div class="state-name">Tamil Nadu</div>
+                        <p class="address-text">116/9, Madurai Main Road, Kayathar Post, Thoothukudi Dist., Tamil Nadu - 628952.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Suzlon+Kayathar" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="tamil-nadu">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Tirunelveli</div>
+                        <div class="state-name">Tamil Nadu</div>
+                        <p class="address-text">No: 2, First Cross Street, Rayan's Residency, Raja Rajeswari Nagar, NGO 'A' Colony, Tirunelveli - 627007.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Rayan's+Residency+Tirunelveli" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="madhya-pradesh">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Indore</div>
+                        <div class="state-name">Madhya Pradesh</div>
+                        <p class="address-text">No.: 04, MR - 25 Mahalakshmi Nagar, Nariman Point Road, Indore - 452010.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Mahalakshmi+Nagar+Indore" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="madhya-pradesh">
+                    <span class="card-badge">Renewable Development</span>
+                    <div class="card-content">
+                        <div class="city-name">Ujjain</div>
+                        <div class="state-name">Madhya Pradesh</div>
+                        <p class="address-text">C-24/4, Mahakaal Vanijyakendra, Nanakheda, Ujjain - 456010.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Mahakaal+Vanijyakendra+Ujjain" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="madhya-pradesh">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Dewas</div>
+                        <div class="state-name">Madhya Pradesh</div>
+                        <p class="address-text">60, Shiv Shakti Nagar, Behind Matra Utsav Vatika Marriage Garden, Dewas - 455001.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Matra+Utsav+Vatika+Dewas" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="rajasthan">
+                    <span class="card-badge">Regional Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Jaipur</div>
+                        <div class="state-name">Rajasthan</div>
+                        <p class="address-text">1st Floor, "Neelkanth", 1 Bhawani Singh Road, Opp. Nehru Sahkar Bhawan, C Scheme, Jaipur - 302001.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Neelkanth+Bhawani+Singh+Road+Jaipur" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="rajasthan">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Jaisalmer</div>
+                        <div class="state-name">Rajasthan</div>
+                        <p class="address-text">Plot No. 3-4, Shri Gokul, B/h Bhatia Bagichi, Near Hanuman Chauraya, Jaisalmer - 345001.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Bhatia+Bagichi+Jaisalmer" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="delhi">
+                    <span class="card-badge">Corporate Office</span>
+                    <div class="card-content">
+                        <div class="city-name">New Delhi</div>
+                        <div class="state-name">Delhi</div>
+                        <p class="address-text">9th Floor, Eros Corporate Tower, Nehru Place, New Delhi - 110019.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Eros+Corporate+Tower+Nehru+Place" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="haryana">
+                    <span class="card-badge">Office</span>
+                    <div class="card-content">
+                        <div class="city-name">Gurgaon</div>
+                        <div class="state-name">Haryana</div>
+                        <p class="address-text">C-93, Greenwood City, Sector 45, Gurgaon - 122003.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Greenwood+City+Gurgaon" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="west-bengal">
+                    <span class="card-badge">OMS Division</span>
+                    <div class="card-content">
+                        <div class="city-name">Kolkata</div>
+                        <div class="state-name">West Bengal</div>
+                        <p class="address-text">3rd Floor, Kamdhenu Building, Easy Daftar Business Centre, 75 C Park Street, Kolkata - 700016.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kamdhenu+Building+Park+Street+Kolkata" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div class="glass-card" data-category="puducherry">
+                    <span class="card-badge">Unit IV</span>
+                    <div class="card-content">
+                        <div class="city-name">Pondicherry</div>
+                        <div class="state-name">Puducherry</div>
+                        <p class="address-text">Village: Thiruvandarkoil, Mannadipet Commune, Pondicherry - 605102.</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Thiruvandarkoil+Pondicherry" target="_blank" class="btn-map">View on Map</a>
+                </div>
+
+                <div id="noResults" class="no-results">No offices found matching your criteria.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = 'all';
+
+        function filterByTab(category, btnElement) {
+            currentCategory = category;
+            var buttons = document.getElementsByClassName("pill");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            btnElement.classList.add("active");
+            globalFilter();
+        }
+
+        // Toggle Search Expansion
+        function toggleSearch() {
+            var wrapper = document.getElementById("searchWrapper");
+            var input = document.getElementById("searchInput");
+            
+            wrapper.classList.toggle("expanded");
+            
+            if (wrapper.classList.contains("expanded")) {
+                input.focus();
+            }
+        }
+
+        // Collapse if input is empty on blur
+        function collapseSearchIfEmpty() {
+            var wrapper = document.getElementById("searchWrapper");
+            var input = document.getElementById("searchInput");
+            
+            if (input.value.trim() === "") {
+                wrapper.classList.remove("expanded");
+            }
+        }
+
+        function globalFilter() {
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
+            var grid = document.getElementById("gridContainer");
+            var cards = grid.getElementsByClassName("glass-card");
+            var noResults = document.getElementById("noResults");
+            var visibleCount = 0;
+
+            for (var i = 0; i < cards.length; i++) {
+                if (cards[i].id === "noResults") continue;
+
+                var cardCategory = cards[i].getAttribute('data-category');
+                var categoryMatch = (currentCategory === 'all') || (cardCategory === currentCategory);
+
+                var city = cards[i].getElementsByClassName("city-name")[0];
+                
+                // Updated to search within the new Badge (Unit Type) and State Name
+                var badge = cards[i].getElementsByClassName("card-badge")[0];
+                var state = cards[i].getElementsByClassName("state-name")[0];
+                
+                var textContent = (city.textContent || city.innerText) + " " + 
+                                  (badge.textContent || badge.innerText) + " " + 
+                                  (state.textContent || state.innerText);
+                                  
+                var searchMatch = textContent.toUpperCase().indexOf(filter) > -1;
+
+                if (categoryMatch && searchMatch) {
+                    cards[i].style.display = "";
+                    visibleCount++;
+                    cards[i].style.animation = "fadeInUp 0.5s var(--ease-elastic)";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+            noResults.style.display = visibleCount === 0 ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
